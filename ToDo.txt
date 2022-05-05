@@ -1,0 +1,1 @@
+user list owner auth for core/chat/views/friend list
