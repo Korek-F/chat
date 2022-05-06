@@ -7,3 +7,10 @@ class Friend_Request(models.Model):
     creation_date = models.DateTimeField(auto_now_add=True)
     def __str__(self):
         return str(self.from_user)+" TO "+str(self.to_user)
+
+class Chat(models.Model):
+    users = models.ManyToManyField(User, related_name="users")
+    creation_date = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return "CHAT "+str(self.creation_date)

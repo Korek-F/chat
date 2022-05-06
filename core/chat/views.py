@@ -1,14 +1,9 @@
-from math import perm
-from urllib import request
-from wsgiref.util import request_uri
-from django.shortcuts import render
-from pkg_resources import to_filename
 from rest_framework import generics,status, permissions
 
 from django.shortcuts import get_object_or_404
 
-from .models import Friend_Request
-from .serializers import FriendsSerializer, FriendRequestSerializer
+from .models import Friend_Request, Chat
+from .serializers import FriendsSerializer, FriendRequestSerializer, ChatSerializer
 from chat_auth.models import User
 from rest_framework.response import Response
 
@@ -88,8 +83,23 @@ class ConfirmRequest(generics.UpdateAPIView):
         to_user.friends.add(from_user)
         to_user.save()
 
+        chat = Chat.objects.create()
+        chat.users.add(from_user)
+        chat.users.add(to_user)
+        chat.save()
+
         request.delete()
 
         other_requests = Friend_Request.objects.all().filter(to_user=to_user)
         serializer = FriendRequestSerializer(other_requests, many=True)
+        return Response(serializer.data)
+
+class ChatsList(generics.ListAPIView):
+    def get_queryset(self):
+        user = self.request.user
+        return Chat.objects.all().filter(users__id = user.id)
+    
+    def list(self,request):
+        queryset = self.get_queryset()
+        serializer = ChatSerializer(queryset, many=True)
         return Response(serializer.data)

@@ -1,6 +1,6 @@
 from rest_framework import serializers
 from chat_auth.models import User
-from .models import Friend_Request
+from .models import Friend_Request, Chat
 
 class FriendsSerializer(serializers.ModelSerializer):
     class Meta:
@@ -14,10 +14,8 @@ class FriendRequestSerializer(serializers.ModelSerializer):
         model = Friend_Request
         fields = ("id","from_user","to_user","creation_date")
 
-"""
-class FriendRequestsToUserSerializer(serializers.ModelSerializer):
-    
+class ChatSerializer(serializers.ModelSerializer):
+    users = FriendsSerializer(many=True)
     class Meta:
-        model = Friend_Request
-        fields = ("id","from_user","to_user","creation_date")
-        """
+        model = Chat
+        fields = ("id","users","creation_date")
