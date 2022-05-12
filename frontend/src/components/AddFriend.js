@@ -1,6 +1,8 @@
 import React, { useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { sendInvitation } from '../actions/chatActions'
+import { LoadingAndError } from './LoadingAndError'
+import "../css/main.css"
 
 export const AddFriend = () => {
     const [userName, setUserName] = useState("")
@@ -14,15 +16,14 @@ export const AddFriend = () => {
     return (
         <div>
             <h1>Add a Friend </h1>
+            <span>Type your friends name</span>
             <input type="text" onChange={(e) => setUserName(e.target.value)} />
 
             <button onClick={AddFriendClick}
                 disabled={chatLoading ? true : false}
             >Add</button>
 
-            <>
-                {error ? <div>{error}</div> : ""}
-            </>
+            <LoadingAndError loading={chatLoading} error={error} />
         </div>
     )
 }

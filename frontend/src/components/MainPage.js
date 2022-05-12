@@ -1,7 +1,8 @@
 import React, { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { Link } from "react-router-dom";
+
 import { getFriendList } from '../actions/chatActions';
+import { LoadingAndError } from './LoadingAndError';
 export const MainPage = () => {
     const dispatch = useDispatch()
 
@@ -9,7 +10,7 @@ export const MainPage = () => {
     const chatData = useSelector(state => state.chatData)
 
     const { isLogged, userEmail, userId } = authData
-    const { chatLoading, friends } = chatData
+    const { chatLoading, friends, error } = chatData
 
     useEffect(() => {
         if (isLogged && userId) {
@@ -19,12 +20,13 @@ export const MainPage = () => {
 
     return (
         <div>
-            MainPage
-            <div>
+            <h1>Chat With me! </h1>
+            <>
+                <h2>Friends:</h2>
                 {isLogged ?
                     <>
-                        {chatLoading ? <span>Loading</span>
-                            : <div>
+                        {!chatLoading &&
+                            <div>
                                 {friends.map(friend =>
                                     <div key={friend.id}>
                                         {friend.username}
@@ -35,7 +37,8 @@ export const MainPage = () => {
                     :
                     <span>Login to see your friends</span>
                 }
-            </div>
+            </>
+            <LoadingAndError loading={chatLoading} error={error} />
         </div>
     )
 }

@@ -1,5 +1,5 @@
 import axios from "axios";
-import { GET_FRIEND_LIST, BASE_URL, GET_FRIEND_LIST_SUCCESS, GET_FRIEND_LIST_ERROR, GET_INVITATIONS, GET_INVITATIONS_SUCCESS, GET_INVITATIONS_ERROR, ACCEPT_INVITATION, ACCEPT_INVITATION_SUCCESS, ACCEPT_INVITATION_ERROR, SEND_FRIEND_REQUEST, SEND_FRIEND_REQUEST_SUCCESS, SEND_FRIEND_REQUEST_ERROR } from "../types";
+import { GET_FRIEND_LIST, BASE_URL, GET_FRIEND_LIST_SUCCESS, GET_FRIEND_LIST_ERROR, GET_INVITATIONS, GET_INVITATIONS_SUCCESS, GET_INVITATIONS_ERROR, ACCEPT_INVITATION, ACCEPT_INVITATION_SUCCESS, ACCEPT_INVITATION_ERROR, SEND_FRIEND_REQUEST, SEND_FRIEND_REQUEST_SUCCESS, SEND_FRIEND_REQUEST_ERROR, GET_CHATS, GET_CHATS_SUCCESS, GET_CHATS_ERROR } from "../types";
 
 export const getFriendList = (userId) => async dispatch => {
     try {
@@ -38,7 +38,8 @@ export const getInvitations = () => async dispatch => {
     }
     catch (e) {
         dispatch({
-            type: GET_INVITATIONS_ERROR
+            type: GET_INVITATIONS_ERROR,
+            payload: e.response?.data?.detail || e.response?.data || e.message || "Error"
         })
         console.log("ERROR", e)
     }
@@ -82,11 +83,32 @@ export const sendInvitation = (userName) => async dispatch => {
     catch (e) {
         dispatch({
             type: SEND_FRIEND_REQUEST_ERROR,
-            payload: e.response.data.detail || e.response.data
+            payload: e.response?.data?.detail || e.response?.data || e.message || "Error"
         })
         console.log("ERROR", e)
     }
 }
+
+export const getChats = () => async dispatch => {
+    try {
+        dispatch({
+            type: GET_CHATS
+        })
+        const res = await axios.get(`${BASE_URL}chat/chats`, { "headers": authHeader() })
+        dispatch({
+            type: GET_CHATS_SUCCESS,
+            payload: res.data
+        })
+    }
+    catch (e) {
+        dispatch({
+            type: GET_CHATS_ERROR,
+            payload: e.response?.data?.detail || e.response?.data || e.message || "Error"
+        })
+        console.log("ERROR", e)
+    }
+}
+
 
 
 export default function authHeader() {

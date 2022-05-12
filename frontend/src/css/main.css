@@ -1,5 +1,71 @@
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
 .navbar {
-    border: 1px solid red;
     display: flex;
+    height: 50px;
     justify-content: space-around;
+
+}
+
+.navbar_link {
+    align-self: center;
+}
+
+.chats {
+    display: flex;
+    height: calc(100vh - 52px);
+}
+
+.chat_friends {
+    border: 1px solid red;
+    width: 30%;
+}
+
+.chat_left_side {
+    border: 1px solid blue;
+    width: 70%;
+}
+
+.chat_header {
+    border: 1px solid blueviolet;
+    height: 1.5rem
+}
+
+.all_messages {
+    height: calc(100vh - 55px - 1.5rem - 3rem);
+    scroll-behavior: smooth;
+    overflow-y: scroll;
+}
+
+.message_input_box {
+    border: 1px solid burlywood;
+    height: 3rem;
+}
+
+.message_input {
+    width: 80%;
+    height: 3rem;
+    font-size: 1.4rem;
+}
+
+.message_send_btn {
+    width: 20%;
+    height: 3rem;
+    font-size: 1.2rem;
+}
+
+.loading_and_error {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    color: red;
+    width: 50%;
+    background-color: bisque;
+    height: calc(40vh);
+    opacity: 0.8;
 }

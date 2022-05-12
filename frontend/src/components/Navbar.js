@@ -8,18 +8,27 @@ export const Navbar = () => {
     const { isLogged, userEmail, userId } = authData
 
     return (
-        <div className='navbar'>
-            <Link to="/">Main Page</Link>
-            {isLogged ?
-                <>
-                    <Link to="/add-friend">Add friend</Link>
-                    <Link to="/invitations">Invitations</Link>
-                    <Link to="/logout">Logout</Link>
-                    <span> {userEmail} </span>
-                </>
-                :
-                <Link to="/login">Login</Link>
-            }
-        </div>
+        <>
+            <div className='navbar'>
+                <Link to="/" className='navbar_link'>Main Page</Link>
+                {isLogged ?
+                    <>
+                        <Link to="/add-friend"
+                            className='navbar_link'>Add friend</Link>
+                        <Link to="/invitations"
+                            className='navbar_link'>Invitations</Link>
+                        <Link to="/chats"
+                            className='navbar_link'>Chats</Link>
+                        <Link to="/logout"
+                            className='navbar_link'>Logout</Link>
+                        <span className='navbar_link'> {userEmail} </span>
+                    </>
+                    :
+                    <Link to="/login"
+                        className='navbar_link'>Login</Link>
+                }
+            </div>
+            <hr />
+        </>
     )
 }

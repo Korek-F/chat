@@ -2,13 +2,14 @@ import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { login } from '../actions/authActions'
 import { useNavigate } from 'react-router-dom'
+import { LoadingAndError } from './LoadingAndError'
 
 export const Login = () => {
     const dispatch = useDispatch()
     const authData = useSelector(state => state.authData)
     const { loading, error, isLogged } = authData
-    const [userPassword, setUserPassword] = useState("filip@onet.pl")
-    const [userEmail, setUserEmail] = useState("ZAQ!2wsx")
+    const [userPassword, setUserPassword] = useState("")
+    const [userEmail, setUserEmail] = useState("")
     let navigate = useNavigate();
 
     const onClickLogin = (e) => {
@@ -44,10 +45,7 @@ export const Login = () => {
                     Login
                 </button>
             </form>
-            <div>
-                {loading ? "Loading" : ""}
-                {error ? "Error" : ""}
-            </div>
+            <LoadingAndError loading={loading} error={error} />
         </div>
     )
 }
