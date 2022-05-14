@@ -7,6 +7,7 @@ from .serializers import FriendsSerializer, FriendRequestSerializer, ChatSeriali
 from chat_auth.models import User
 from rest_framework.response import Response
 
+from .permissions import ConfirmRequestPermission
 
 
 
@@ -26,6 +27,7 @@ class FriendsListView(generics.ListAPIView):
 
 class CreateFriendRequest(generics.CreateAPIView):
     serializer_class = FriendRequestSerializer
+    permission_classes = [permissions.IsAuthenticated]
     
     def create(self, request):
         from_user = self.request.user
@@ -67,6 +69,8 @@ class FriendRequesFromUsertList(generics.ListAPIView):
         return Response(serializer.data)
 
 class ConfirmRequest(generics.UpdateAPIView):
+    permission_classes= [ConfirmRequestPermission]
+
     def get_queryset(self):
         request_id = self.request.data.get("id")
         request = get_object_or_404(Friend_Request, pk=request_id)
@@ -74,6 +78,7 @@ class ConfirmRequest(generics.UpdateAPIView):
     
     def update(self, request):
         request = self.get_queryset()
+        self.check_object_permissions(self.request, request)
         from_user = request.from_user
         to_user = request.to_user
 
@@ -83,10 +88,11 @@ class ConfirmRequest(generics.UpdateAPIView):
         to_user.friends.add(from_user)
         to_user.save()
 
-        chat = Chat.objects.create()
-        chat.users.add(from_user)
-        chat.users.add(to_user)
-        chat.save()
+        if not Chat.objects.all().filter(users=from_user).filter(users=to_user).exists():
+            chat = Chat.objects.create()
+            chat.users.add(from_user)
+            chat.users.add(to_user)
+            chat.save()
 
         request.delete()
 
