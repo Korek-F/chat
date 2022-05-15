@@ -8,4 +8,5 @@ urlpatterns = [
     path('friend-request-from-user', views.FriendRequesFromUsertList.as_view(),name="friend_request_from_user"),
     path('accept-request', views.ConfirmRequest.as_view(),name="accept_request"),
     path('chats', views.ChatsList.as_view(),name="chats"),
+    path('search-friend/<str:username>', views.SearchFriend.as_view(),name="search_friend"),
 ]

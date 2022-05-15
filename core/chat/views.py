@@ -1,14 +1,15 @@
+from genericpath import exists
 from rest_framework import generics,status, permissions
-
+from rest_framework.response import Response
 from django.shortcuts import get_object_or_404
+from django.db.models import Q
+
+from chat_auth.models import User
 
 from .models import Friend_Request, Chat
 from .serializers import FriendsSerializer, FriendRequestSerializer, ChatSerializer
-from chat_auth.models import User
-from rest_framework.response import Response
-
 from .permissions import ConfirmRequestPermission
-
+from .paginations import FriendsPagination
 
 
 
@@ -109,3 +110,22 @@ class ChatsList(generics.ListAPIView):
         queryset = self.get_queryset()
         serializer = ChatSerializer(queryset, many=True)
         return Response(serializer.data)
+
+class SearchFriend(generics.ListAPIView):
+    pagination_class = FriendsPagination
+
+    def get_queryset(self):
+        user = self.request.user
+        username = self.kwargs['username']
+        friends_id = user.friends.values_list('id', flat=True)
+        return User.objects.all().exclude(pk=user.id).exclude(id__in=friends_id).filter(username__icontains=username)
+    
+    def list(self,request, username):
+        queryset = self.get_queryset() 
+
+        if not queryset.exists():
+            print('as')
+            return Response({'detail':'Not found any user with that name.'}, status=404)
+        serializer = FriendsSerializer(queryset, many=True)
+        page = self.paginate_queryset(serializer.data)
+        return self.get_paginated_response(page)
