@@ -69,3 +69,19 @@
     height: calc(40vh);
     opacity: 0.8;
 }
+
+.page_control {
+    font-size: 2rem;
+    color: grey;
+    user-select: none;
+}
+
+.page_control_active {
+    color: green;
+}
+
+.controls_list {
+    display: flex;
+    width: 200px;
+    align-items: baseline;
+}

@@ -1,27 +1,58 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { sendInvitation } from '../actions/chatActions'
+import { getFriendList, searchFriends, sendInvitation } from '../actions/chatActions'
 import { LoadingAndError } from './LoadingAndError'
 import "../css/main.css"
+import { Pagination } from './pagination/Pagination'
+
 
 export const AddFriend = () => {
-    const [userName, setUserName] = useState("")
     const chatData = useSelector(state => state.chatData)
+    const authData = useSelector(state => state.authData)
     const dispatch = useDispatch()
-    const { chatLoading, error } = chatData
+    const { chatLoading, error, searched_friends_data, searched_users } = chatData
+    const { userId } = authData
 
-    const AddFriendClick = () => {
-        dispatch(sendInvitation(userName))
+    const [userName, setUserName] = useState("")
+    const [currentPage, setCurrentPage] = useState(1)
+
+
+
+
+    useEffect(() => {
+        dispatch(getFriendList(userId))
+    }, [])
+
+    const searchFriendClick = () => {
+        if (userName) {
+            setCurrentPage(1)
+            dispatch(searchFriends(userName, currentPage))
+        }
     }
+
+    const changePageClick = (page) => {
+        dispatch(searchFriends(userName, page))
+        setCurrentPage(page)
+    }
+
     return (
         <div>
             <h1>Add a Friend </h1>
             <span>Type your friends name</span>
             <input type="text" onChange={(e) => setUserName(e.target.value)} />
-
-            <button onClick={AddFriendClick}
+            <button onClick={searchFriendClick}
                 disabled={chatLoading ? true : false}
-            >Add</button>
+            >Search</button>
+
+            <Pagination pagination_data={searched_friends_data}
+                currentPage={currentPage} changePage={changePageClick} />
+
+            {searched_users.map(f => <div key={f.id}>
+                {f.username}
+                <button
+                    onClick={() => dispatch(sendInvitation(f.username))}>Add</button>
+            </div>)}
+
 
             <LoadingAndError loading={chatLoading} error={error} />
         </div>

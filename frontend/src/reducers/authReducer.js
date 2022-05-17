@@ -1,4 +1,4 @@
-import { TRY_LOGIN, LOGIN_ERROR, LOGIN_SUCCESS, LOGOUT } from "../types";
+import { TRY_LOGIN, LOGIN_ERROR, LOGIN_SUCCESS, LOGOUT, DELETE_ERRORS, REGISTER_SUCCESS, REGISTER_ERROR } from "../types";
 import jwt_decode from 'jwt-decode'
 
 const tokens = JSON.parse(localStorage.getItem("user_tokens"))
@@ -9,12 +9,14 @@ const initalState = tokens ? {
     isLogged: true,
     userId: jwt_decode(JSON.parse(localStorage.getItem("user_tokens")).access).user_id || null,
     userEmail: jwt_decode(JSON.parse(localStorage.getItem("user_tokens")).access).user_email || null,
+    registered: false
 } : {
     error: false,
     loading: false,
     isLogged: false,
     userId: null,
-    userEmail: null
+    userEmail: null,
+    registered: false
 }
 
 export default function (state = initalState, action) {
@@ -43,7 +45,7 @@ export default function (state = initalState, action) {
             localStorage.removeItem("user_tokens");
             return {
                 ...state,
-                error: true,
+                error: action.payload,
                 loading: false,
                 isLogged: false,
                 userId: null,
@@ -58,6 +60,36 @@ export default function (state = initalState, action) {
                 isLogged: false,
                 userId: null,
                 userEmail: null
+            }
+        case DELETE_ERRORS:
+            return {
+                ...state,
+                error: false,
+                loading: false
+            }
+        case TRY_LOGIN:
+            return {
+                ...state,
+                loading: true,
+                error: false,
+                registered: false,
+
+            }
+        case REGISTER_SUCCESS:
+            return {
+                ...state,
+                loading: false,
+                error: false,
+                registered: true,
+
+            }
+        case REGISTER_ERROR:
+            return {
+                ...state,
+                loading: false,
+                error: action.payload,
+                registered: false,
+
             }
         default: return state
     }

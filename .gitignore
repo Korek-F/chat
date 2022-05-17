@@ -77,6 +77,10 @@ coverage.xml
 cover/
 
 
+Dockerfile 
+docker-compose.yml
+entrypoint.sh
+ToDo.txt
 
 # Translations
 *.mo

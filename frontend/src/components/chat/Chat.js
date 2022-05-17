@@ -20,7 +20,6 @@ export const Chat = ({ currentChat }) => {
         }
         ws.onmessage = function (e) {
             const data = JSON.parse(e.data);
-            console.log(data)
             if (data instanceof Array) {
                 setMessageArr(data.reverse())
             } else {

@@ -6,15 +6,23 @@ export const LoadingAndError = ({ loading, error }) => {
 
     const dispatch = useDispatch()
 
+    const erros_array = []
+
+    Object.keys(error).forEach(function (key) {
+        erros_array.push(`${key.toUpperCase()} - ${error[key]}`)
+    })
 
     return (
         <>
 
-            {(loading || error.length > 0) &&
+            {(loading || error) &&
 
                 <div className='loading_and_error'>
-                    {loading ? "Loading" : ""}
-                    {error.length > 0 ? <div>{error}</div> : ""}
+                    {loading ? <h1>Loading</h1> : ""}
+
+                    {erros_array.map((e, i) => <div key={i}>{e}</div>)}
+
+
                     <button onClick={() => dispatch({ type: DELETE_ERRORS })}>Close</button>
                 </div>
             }

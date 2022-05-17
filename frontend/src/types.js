@@ -2,6 +2,10 @@ export const TRY_LOGIN = "TRY_LOGIN"
 export const LOGIN_SUCCESS = "LOGIN_SUCCESS"
 export const LOGIN_ERROR = "LOGIN_ERROR"
 
+export const TRY_REGISTER = "TRY_REGISTER"
+export const REGISTER_SUCCESS = "REGISTER_SUCCESS"
+export const REGISTER_ERROR = "REGISTER_ERROR"
+
 export const BASE_URL = 'http://localhost:8000/'
 
 export const LOGOUT = "LOGOUT"
@@ -26,5 +30,8 @@ export const GET_CHATS = "GET_CHATS"
 export const GET_CHATS_SUCCESS = "GET_CHATS_SUCCESS"
 export const GET_CHATS_ERROR = "GET_CHATS_ERROR"
 
+export const SEARCH_FRIENDS = "SEARCH_FRIENDS"
+export const SEARCH_FRIENDS_SUCCESS = "SEARCH_FRIENDS_SUCCESS"
+export const SEARCH_FRIENDS_ERROR = "SEARCH_FRIENDS_ERROR"
 
 export const DELETE_ERRORS = "DELETE_ERRORS"

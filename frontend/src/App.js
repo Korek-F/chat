@@ -4,12 +4,15 @@ import {
   Route,
 } from "react-router-dom";
 import { AddFriend } from "./components/AddFriend";
-import { Chats } from "./components/Chats";
+import { Chats } from "./components/chat/Chats";
+
+import { NotFound } from "./components/errors/NotFound";
 import { Invitations } from "./components/Invitations";
 import { Login } from "./components/Login";
 import { Logout } from "./components/Logout";
 import { MainPage } from "./components/MainPage";
 import { Navbar } from "./components/Navbar";
+import { Registration } from "./components/Registration";
 
 
 function App() {
@@ -18,12 +21,14 @@ function App() {
       <Navbar />
       <div className="main_content">
         <Routes>
-          <Route path='/' element={<MainPage />} />
-          <Route path='login' element={<Login />} />
-          <Route path='logout' element={<Logout />} />
-          <Route path='add-friend' element={<AddFriend />} />
-          <Route path='invitations' element={<Invitations />} />
-          <Route path='chats' element={<Chats />} />
+          <Route exact path='/' element={<MainPage />} />
+          <Route exact path='login' element={<Login />} />
+          <Route exact path='logout' element={<Logout />} />
+          <Route exact path='add-friend' element={<AddFriend />} />
+          <Route exact path='invitations' element={<Invitations />} />
+          <Route exact path='chats' element={<Chats />} />
+          <Route exact path='register' element={<Registration />} />
+          <Route path="*" element={<NotFound />} />
         </Routes>
       </div>
     </BrowserRouter>

@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { getChats } from '../actions/chatActions'
 import { Chat } from './Chat'
-import { LoadingAndError } from './LoadingAndError'
-import "../css/main.css"
+import { LoadingAndError } from '../LoadingAndError'
+import "../../css/main.css"
+import { getChats } from '../../actions/chatActions'
 
 export const Chats = () => {
     const dispatch = useDispatch()

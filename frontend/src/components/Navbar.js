@@ -5,7 +5,7 @@ import "../css/main.css"
 
 export const Navbar = () => {
     const authData = useSelector(state => state.authData)
-    const { isLogged, userEmail, userId } = authData
+    const { isLogged, userEmail } = authData
 
     return (
         <>
@@ -24,8 +24,12 @@ export const Navbar = () => {
                         <span className='navbar_link'> {userEmail} </span>
                     </>
                     :
-                    <Link to="/login"
-                        className='navbar_link'>Login</Link>
+                    <>
+                        <Link to="/login"
+                            className='navbar_link'>Login</Link>
+                        <Link to="/register"
+                            className='navbar_link'>Register</Link>
+                    </>
                 }
             </div>
             <hr />

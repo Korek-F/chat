@@ -1,5 +1,5 @@
 import axios from "axios";
-import { GET_FRIEND_LIST, BASE_URL, GET_FRIEND_LIST_SUCCESS, GET_FRIEND_LIST_ERROR, GET_INVITATIONS, GET_INVITATIONS_SUCCESS, GET_INVITATIONS_ERROR, ACCEPT_INVITATION, ACCEPT_INVITATION_SUCCESS, ACCEPT_INVITATION_ERROR, SEND_FRIEND_REQUEST, SEND_FRIEND_REQUEST_SUCCESS, SEND_FRIEND_REQUEST_ERROR, GET_CHATS, GET_CHATS_SUCCESS, GET_CHATS_ERROR } from "../types";
+import { GET_FRIEND_LIST, BASE_URL, GET_FRIEND_LIST_SUCCESS, GET_FRIEND_LIST_ERROR, GET_INVITATIONS, GET_INVITATIONS_SUCCESS, GET_INVITATIONS_ERROR, ACCEPT_INVITATION, ACCEPT_INVITATION_SUCCESS, ACCEPT_INVITATION_ERROR, SEND_FRIEND_REQUEST, SEND_FRIEND_REQUEST_SUCCESS, SEND_FRIEND_REQUEST_ERROR, GET_CHATS, GET_CHATS_SUCCESS, GET_CHATS_ERROR, SEARCH_FRIENDS, SEARCH_FRIENDS_SUCCESS, SEARCH_FRIENDS_ERROR } from "../types";
 
 export const getFriendList = (userId) => async dispatch => {
     try {
@@ -9,7 +9,6 @@ export const getFriendList = (userId) => async dispatch => {
         const res = await axios.get(`${BASE_URL}chat/friend-list/${userId}`, {
             "headers": authHeader()
         })
-        console.log(res.data)
         dispatch({
             type: GET_FRIEND_LIST_SUCCESS,
             payload: res.data
@@ -17,9 +16,10 @@ export const getFriendList = (userId) => async dispatch => {
     }
     catch (e) {
         dispatch({
-            type: GET_FRIEND_LIST_ERROR
+            type: GET_FRIEND_LIST_ERROR,
+            payload: get_error(e)
         })
-        console.log("ERROR", e)
+
     }
 }
 
@@ -39,9 +39,9 @@ export const getInvitations = () => async dispatch => {
     catch (e) {
         dispatch({
             type: GET_INVITATIONS_ERROR,
-            payload: e.response?.data?.detail || e.response?.data || e.message || "Error"
+            payload: get_error(e)
         })
-        console.log("ERROR", e)
+
     }
 }
 
@@ -60,9 +60,9 @@ export const acceptInvitation = (invitationId) => async dispatch => {
     }
     catch (e) {
         dispatch({
-            type: ACCEPT_INVITATION_ERROR
+            type: ACCEPT_INVITATION_ERROR,
+            payload: get_error(e)
         })
-        console.log("ERROR", e)
     }
 }
 
@@ -83,9 +83,9 @@ export const sendInvitation = (userName) => async dispatch => {
     catch (e) {
         dispatch({
             type: SEND_FRIEND_REQUEST_ERROR,
-            payload: e.response?.data?.detail || e.response?.data || e.message || "Error"
+            payload: get_error(e)
         })
-        console.log("ERROR", e)
+
     }
 }
 
@@ -103,13 +103,31 @@ export const getChats = () => async dispatch => {
     catch (e) {
         dispatch({
             type: GET_CHATS_ERROR,
-            payload: e.response?.data?.detail || e.response?.data || e.message || "Error"
+            payload: get_error(e)
         })
-        console.log("ERROR", e)
     }
 }
 
+export const searchFriends = (username, page_id) => async dispatch => {
+    try {
+        dispatch({
+            type: SEARCH_FRIENDS
+        })
+        const res = await axios.get(`${BASE_URL}chat/search-friend/${username}?p=${page_id}`, { "headers": authHeader() })
+        dispatch({
+            type: SEARCH_FRIENDS_SUCCESS,
+            payload: res.data
+        })
+    }
+    catch (e) {
+        dispatch({
+            type: SEARCH_FRIENDS_ERROR,
+            payload: get_error(e)
+        })
+    }
+}
 
+const get_error = (e) => e.response?.data || { "CONNECTON": "CONNECTON LOST." }
 
 export default function authHeader() {
     const user = JSON.parse(localStorage.getItem('user_tokens'))
