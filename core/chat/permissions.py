@@ -1,3 +1,4 @@
+from math import perm
 from rest_framework import permissions 
 
 class ConfirmRequestPermission(permissions.BasePermission):
@@ -6,3 +7,4 @@ class ConfirmRequestPermission(permissions.BasePermission):
     
     def has_object_permission(self, request, view, obj):
         return obj.to_user.id == request.user.id
+

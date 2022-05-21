@@ -37,7 +37,6 @@ class CreateFriendRequest(generics.CreateAPIView):
         if(Friend_Request.objects.filter(from_user=from_user, to_user=to_user).exists() or Friend_Request.objects.filter(from_user=to_user, to_user=from_user).exists()):
             return Response({"STATUS":"Friend request already exists!"},status=status.HTTP_409_CONFLICT)
         if from_user.friends.filter(username=to_user.username):
-            print("d")
             return Response({"STATUS":"You are arleady friends!"},status=status.HTTP_409_CONFLICT)
         new_request = Friend_Request(from_user=from_user, to_user=to_user)
         new_request.save()
@@ -124,8 +123,7 @@ class SearchFriend(generics.ListAPIView):
         queryset = self.get_queryset() 
 
         if not queryset.exists():
-            print('as')
-            return Response({'detail':'Not found any user with that name.'}, status=404)
+            return Response({'detail':'Not found any user with that name'}, status=404)
         serializer = FriendsSerializer(queryset, many=True)
         page = self.paginate_queryset(serializer.data)
         return self.get_paginated_response(page)
