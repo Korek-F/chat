@@ -7,6 +7,7 @@ from core import settings
 import jwt
 from chat_auth.models import User
 import datetime
+
 class ChatConsumer(AsyncWebsocketConsumer):
 
     async def connect(self):
