@@ -20,6 +20,7 @@ class Chat(models.Model):
     def __str__(self):
         return "CHAT "+str(self.creation_date)
 
+
 class Message(models.Model):
     chat = models.ForeignKey(Chat, on_delete=models.CASCADE)
     author = models.ForeignKey(User, on_delete=models.CASCADE)

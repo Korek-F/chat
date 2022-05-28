@@ -1,3 +1,4 @@
+import { useSelector } from "react-redux";
 import {
   BrowserRouter,
   Routes,
@@ -12,13 +13,20 @@ import { Login } from "./components/Login";
 import { Logout } from "./components/Logout";
 import { MainPage } from "./components/MainPage";
 import { Navbar } from "./components/Navbar";
+import { PopMessage } from "./components/PopMessage";
 import { Registration } from "./components/Registration";
 
 
 function App() {
+  const chatData = useSelector(state => state.chatData)
+  const { message } = chatData
+
   return (
     <BrowserRouter>
       <Navbar />
+      {message &&
+        <PopMessage message={message} />
+      }
       <div className="main_content">
         <Routes>
           <Route exact path='/' element={<MainPage />} />

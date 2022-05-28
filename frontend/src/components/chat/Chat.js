@@ -12,7 +12,7 @@ export const Chat = ({ currentChat }) => {
 
 
     useEffect(() => {
-        let ws = new WebSocket(`ws://0.0.0.0:8000/ws/chat/${currentChat}/?token=${token}`)
+        let ws = new WebSocket(`ws://localhost:8000/ws/chat/${currentChat}/?token=${token}`)
 
         setWs(ws)
         ws.onclose = function (e) {

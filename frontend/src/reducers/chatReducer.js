@@ -1,4 +1,4 @@
-import { ACCEPT_INVITATION, ACCEPT_INVITATION_ERROR, ACCEPT_INVITATION_SUCCESS, DELETE_ERRORS, GET_CHATS, GET_CHATS_ERROR, GET_CHATS_SUCCESS, GET_FRIEND_LIST, GET_FRIEND_LIST_ERROR, GET_FRIEND_LIST_SUCCESS, GET_INVITATIONS, GET_INVITATIONS_ERROR, GET_INVITATIONS_SUCCESS, SEARCH_FRIENDS, SEARCH_FRIENDS_ERROR, SEARCH_FRIENDS_SUCCESS, SEND_FRIEND_REQUEST, SEND_FRIEND_REQUEST_ERROR, SEND_FRIEND_REQUEST_SUCCESS } from "../types";
+import { ACCEPT_INVITATION, ACCEPT_INVITATION_ERROR, ACCEPT_INVITATION_SUCCESS, DELETE_ERRORS, DELETE_MESSAGES, GET_CHATS, GET_CHATS_ERROR, GET_CHATS_SUCCESS, GET_FRIEND_LIST, GET_FRIEND_LIST_ERROR, GET_FRIEND_LIST_SUCCESS, GET_INVITATIONS, GET_INVITATIONS_ERROR, GET_INVITATIONS_SUCCESS, SEARCH_FRIENDS, SEARCH_FRIENDS_ERROR, SEARCH_FRIENDS_SUCCESS, SEND_FRIEND_REQUEST, SEND_FRIEND_REQUEST_ERROR, SEND_FRIEND_REQUEST_SUCCESS } from "../types";
 
 const initalState = {
     chatLoading: false,
@@ -8,6 +8,7 @@ const initalState = {
     chats: [],
     searched_friends_data: [],
     searched_users: [],
+    message: false,
 
 }
 
@@ -67,14 +68,15 @@ export default function (state = initalState, action) {
                 ...state,
                 chatLoading: false,
                 error: false,
-                invitations: action.payload
+                invitations: action.payload,
+                message: "Invitation accepted .You are friends now!"
             }
         case ACCEPT_INVITATION_ERROR:
             return {
                 ...state,
                 chatLoading: false,
                 error: action.payload,
-                invitations: []
+                invitations: [],
             }
         case SEND_FRIEND_REQUEST:
             return {
@@ -87,6 +89,7 @@ export default function (state = initalState, action) {
                 ...state,
                 chatLoading: false,
                 error: false,
+                message: "Invitation sended."
             }
         case SEND_FRIEND_REQUEST_ERROR:
             return {
@@ -120,6 +123,11 @@ export default function (state = initalState, action) {
                 ...state,
                 error: false,
                 chatLoading: false
+            }
+        case DELETE_MESSAGES:
+            return {
+                ...state,
+                message: false,
             }
         case SEARCH_FRIENDS:
             return {
