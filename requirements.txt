@@ -7,5 +7,3 @@ PyJWT==2.4.0
 pytz==2022.1
 sqlparse==0.4.2
 tzdata==2022.1
-daphne
-channels_redis
