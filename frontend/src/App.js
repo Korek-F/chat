@@ -15,11 +15,14 @@ import { MainPage } from "./components/MainPage";
 import { Navbar } from "./components/Navbar";
 import { PopMessage } from "./components/PopMessage";
 import { Registration } from "./components/Registration";
+import Protected from "./utils/ProtectedRoute";
 
 
 function App() {
   const chatData = useSelector(state => state.chatData)
+  const authData = useSelector(state => state.authData)
   const { message } = chatData
+  const { isLogged } = authData
 
   return (
     <BrowserRouter>
@@ -32,9 +35,21 @@ function App() {
           <Route exact path='/' element={<MainPage />} />
           <Route exact path='login' element={<Login />} />
           <Route exact path='logout' element={<Logout />} />
-          <Route exact path='add-friend' element={<AddFriend />} />
-          <Route exact path='invitations' element={<Invitations />} />
-          <Route exact path='chats' element={<Chats />} />
+          <Route exact path='add-friend' element={
+            <Protected isLogged={isLogged}>
+              <AddFriend />
+            </Protected>} />
+          <Route exact path='invitations'
+
+            element={<Protected isLogged={isLogged}>
+              <Invitations />
+            </Protected>} />
+
+          <Route exact path='chats'
+            element={<Protected isLogged={isLogged}>
+              <Chats />
+            </Protected>} />
+
           <Route exact path='register' element={<Registration />} />
           <Route path="*" element={<NotFound />} />
         </Routes>
