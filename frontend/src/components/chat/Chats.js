@@ -4,8 +4,11 @@ import { Chat } from './Chat'
 import { LoadingAndError } from '../LoadingAndError'
 import "../../css/main.css"
 import { getChats } from '../../actions/chatActions'
+import { NewChat } from './NewChat'
 
 export const Chats = () => {
+    const [showAddMenu, setShowAddMenu] = useState(false)
+
     const dispatch = useDispatch()
     const chatData = useSelector(state => state.chatData)
     const authData = useSelector(state => state.authData)
@@ -29,9 +32,14 @@ export const Chats = () => {
             <div className='chat_friends'>
                 {chats.map(c =>
                     <div key={c.id} onClick={() => setCurrentChat(c.id)}>
-                        {c.users.find(u => u.id !== userId).username}
+                        {c.users.length}.
+                        {c.name ? c.name :
+                            c.users.map(u => u.username + " ")}
                     </div>
                 )}
+                <div className="create_new_chat" onClick={() => setShowAddMenu(true)}>
+                    +
+                </div>
             </div>
             <hr />
             <div className='chat_left_side'>
@@ -39,6 +47,8 @@ export const Chats = () => {
             </div>
 
             <LoadingAndError loading={chatLoading} error={error} />
+
+            {showAddMenu && <NewChat setShowAddMenu={setShowAddMenu} />}
 
         </div>
     )

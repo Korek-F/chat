@@ -80,24 +80,23 @@ ASGI_APPLICATION = 'core.asgi.application'
 # Database
 # https://docs.djangoproject.com/en/4.0/ref/settings/#databases
 
-if DEBUG:
-    DATABASES = {
+"""     DATABASES = {
         'default': {
             'ENGINE': 'django.db.backends.sqlite3',
             'NAME': BASE_DIR / 'db.sqlite3',
         }
+    } """
+
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': "postgres",
+        'USER': "postgres",
+        'PASSWORD': "postgres",
+        'HOST':"db",
+        'PORT': 5432
     }
-else:
-    DATABASES = {
-        'default': {
-            'ENGINE': 'django.db.backends.postgresql',
-            'NAME': "postgres",
-            'USER': "postgres",
-            'PASSWORD': "postgres",
-            'HOST':"db",
-            'PORT': 5432
-        }
-    }
+}
 
 
 
@@ -153,13 +152,14 @@ REST_FRAMEWORK = {
 }
 
 CORS_ALLOWED_ORIGINS = [
-    "http://localhost:3000",
+    "http://localhost:3000","http://localhost:1338"
 ]
 
 SIMPLE_JWT = {
-    'ACCESS_TOKEN_LIFETIME': timedelta(minutes=1),
+    'ACCESS_TOKEN_LIFETIME': timedelta(days=10),
     'REFRESH_TOKEN_LIFETIME': timedelta(days=14),
 }
+
 
 if DEBUG:
     CHANNEL_LAYERS = {

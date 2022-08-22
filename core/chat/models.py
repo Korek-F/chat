@@ -10,6 +10,7 @@ class Friend_Request(models.Model):
         return str(self.from_user)+" TO "+str(self.to_user)
 
 class Chat(models.Model):
+    name = models.CharField(max_length=255, blank=True)
     users = models.ManyToManyField(User, related_name="users")
     creation_date = models.DateTimeField(auto_now_add=True)
     last_active = models.DateTimeField(auto_now_add=True, blank=True)

@@ -8,12 +8,17 @@ from .serializers import UserRegisterSerializer
 
 # Create your views here.
 class UserTokenObtainPairSerializer(TokenObtainPairSerializer):
+    default_error_messages = {
+        'no_active_account': {"detail": ['Username or Password does not matched.']}
+    }
+
     @classmethod
     def get_token(cls, user):
         token = super().get_token(user)
         token['user_id'] = user.id
         token['user_email'] = user.email
         return token
+    
 
 
 class UserTokenObtainPairView(TokenObtainPairView):

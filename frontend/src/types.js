@@ -6,7 +6,7 @@ export const TRY_REGISTER = "TRY_REGISTER"
 export const REGISTER_SUCCESS = "REGISTER_SUCCESS"
 export const REGISTER_ERROR = "REGISTER_ERROR"
 
-export const BASE_URL = 'http://localhost:8000/'
+export const BASE_URL = 'http://localhost:8001/'
 
 export const LOGOUT = "LOGOUT"
 

@@ -9,4 +9,5 @@ urlpatterns = [
     path('accept-request', views.ConfirmRequest.as_view(),name="accept_request"),
     path('chats', views.ChatsList.as_view(),name="chats"),
     path('search-friend/<str:username>', views.SearchFriend.as_view(),name="search_friend"),
+    path('create-chat', views.CreateNewChat.as_view(),name="create_chat"),
 ]

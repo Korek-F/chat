@@ -35,14 +35,31 @@ class CreateFriendRequest(generics.CreateAPIView):
         to_user = get_object_or_404(User, username=request.data.get("username"))
         
         if(Friend_Request.objects.filter(from_user=from_user, to_user=to_user).exists() or Friend_Request.objects.filter(from_user=to_user, to_user=from_user).exists()):
-            return Response({"STATUS":"Friend request already exists!"},status=status.HTTP_409_CONFLICT)
+            return Response({"status":"Friend request already exists!"},status=status.HTTP_409_CONFLICT)
         if from_user.friends.filter(username=to_user.username):
-            return Response({"STATUS":"You are arleady friends!"},status=status.HTTP_409_CONFLICT)
+            return Response({"status":"You are arleady friends!"},status=status.HTTP_409_CONFLICT)
         new_request = Friend_Request(from_user=from_user, to_user=to_user)
         new_request.save()
         serializer = FriendRequestSerializer(new_request, many=False)
         return Response(serializer.data)
 
+
+class CreateNewChat(generics.CreateAPIView):
+    permission_classes = [permissions.IsAuthenticated]
+
+    def create(self,request):
+        friends_ids = self.request.data.get("ids")
+        user = self.request.user
+        new_chat = Chat.objects.create()
+        new_chat.users.add(user)
+
+        for i, v in enumerate(friends_ids):
+            user = get_object_or_404(User, pk=v)
+            print(user.email)
+            new_chat.users.add(user)
+        new_chat.save()
+        
+        return Response("OK")
 
 class FriendRequesToUsertList(generics.ListAPIView):
     permission_classes = [permissions.IsAuthenticated]
@@ -127,3 +144,4 @@ class SearchFriend(generics.ListAPIView):
         serializer = FriendsSerializer(queryset, many=True)
         page = self.paginate_queryset(serializer.data)
         return self.get_paginated_response(page)
+

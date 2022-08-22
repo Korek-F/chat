@@ -127,7 +127,14 @@ export const searchFriends = (username, page_id) => async dispatch => {
     }
 }
 
-const get_error = (e) => e.response?.data || { "CONNECTION": "CONNECTION LOST." }
+const get_error = (e) => {
+    console.log(e)
+    if (e.request.status === 404) {
+        return { "data": "Not Found" }
+    }
+    return e.response?.data || { "CONNECTION": "CONNECTION LOST." }
+}
+
 
 export default function authHeader() {
     const user = JSON.parse(localStorage.getItem('user_tokens'))

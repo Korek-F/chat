@@ -17,6 +17,7 @@ __pycache__/
 local_settings.py
 media/
 staticfiles/
+db.sqlite3
 
 # Backup files # 
 *.bak 

@@ -18,4 +18,4 @@ class ChatSerializer(serializers.ModelSerializer):
     users = FriendsSerializer(many=True)
     class Meta:
         model = Chat
-        fields = ("id","users","creation_date")
+        fields = ("id","users","name","creation_date")

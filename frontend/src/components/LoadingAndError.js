@@ -9,9 +9,6 @@ export const LoadingAndError = ({ loading, error }) => {
 
 
 
-    if (error?.code === "token_not_valid") {
-        dispatch(logout())
-    }
 
     return (
         <>
@@ -20,8 +17,16 @@ export const LoadingAndError = ({ loading, error }) => {
 
                 <div className='loading_and_error'>
                     {loading ? <h1>Loading</h1> : ""}
-
-                    {error ? <div>{error.detail}</div> : ""}
+                    {error ?
+                        <div>{Object.keys(error).map(e =>
+                            <>
+                                {Array.isArray(error[e]) ?
+                                    error[e].map(d => <p key={d}> {d} </p>) :
+                                    <p>{error[e]}</p>
+                                }
+                            </>
+                        )}</div> : ""
+                    }
 
 
 
