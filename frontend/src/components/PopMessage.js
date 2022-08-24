@@ -8,7 +8,6 @@ export const PopMessage = ({ message }) => {
     const dispatch = useDispatch()
     useEffect(() => {
         setTimeout(() => {
-            console.log("Czas")
             dispatch({ type: DELETE_MESSAGES })
         }, 3000)
     }, [])

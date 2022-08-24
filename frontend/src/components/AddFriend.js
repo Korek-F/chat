@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { getFriendList, searchFriends, sendInvitation } from '../actions/chatActions'
-import { LoadingAndError } from './LoadingAndError'
 import "../css/main.css"
 import { Pagination } from './pagination/Pagination'
 
@@ -10,7 +9,7 @@ export const AddFriend = () => {
     const chatData = useSelector(state => state.chatData)
     const authData = useSelector(state => state.authData)
     const dispatch = useDispatch()
-    const { chatLoading, error, searched_friends_data, searched_users } = chatData
+    const { chatLoading, searched_friends_data, searched_users } = chatData
     const { userId } = authData
 
     const [userName, setUserName] = useState("")
@@ -21,7 +20,7 @@ export const AddFriend = () => {
 
     useEffect(() => {
         dispatch(getFriendList(userId))
-    }, [])
+    }, [dispatch, userId])
 
     const searchFriendClick = () => {
         if (userName) {
@@ -54,7 +53,6 @@ export const AddFriend = () => {
             </div>)}
 
 
-            <LoadingAndError loading={chatLoading} error={error} />
         </div>
     )
 }

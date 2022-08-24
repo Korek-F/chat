@@ -2,7 +2,6 @@ import React, { useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { Link } from 'react-router-dom'
 import { register } from '../actions/authActions'
-import { LoadingAndError } from './LoadingAndError'
 
 export const Registration = () => {
     const [userEmail, setUserEmail] = useState("")
@@ -11,7 +10,7 @@ export const Registration = () => {
 
     const dispatch = useDispatch()
     const authData = useSelector(state => state.authData)
-    const { loading, error, registered } = authData
+    const { registered } = authData
 
     const onClickRegister = (e) => {
         e.preventDefault(e)
@@ -51,7 +50,7 @@ export const Registration = () => {
                     </div>
                 }
             </form>
-            <LoadingAndError loading={loading} error={error} />
+
 
         </>
     )

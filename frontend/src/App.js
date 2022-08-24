@@ -9,6 +9,7 @@ import { Chats } from "./components/chat/Chats";
 
 import { NotFound } from "./components/errors/NotFound";
 import { Invitations } from "./components/Invitations";
+import { LoadingAndError } from "./components/LoadingAndError";
 import { Login } from "./components/Login";
 import { Logout } from "./components/Logout";
 import { MainPage } from "./components/MainPage";
@@ -21,7 +22,7 @@ import Protected from "./utils/ProtectedRoute";
 function App() {
   const chatData = useSelector(state => state.chatData)
   const authData = useSelector(state => state.authData)
-  const { message } = chatData
+  const { message, error, chatLoading } = chatData
   const { isLogged } = authData
 
   return (
@@ -53,6 +54,8 @@ function App() {
           <Route exact path='register' element={<Registration />} />
           <Route path="*" element={<NotFound />} />
         </Routes>
+
+        <LoadingAndError loading={chatLoading} error={error} />
       </div>
     </BrowserRouter>
   );

@@ -1,10 +1,10 @@
 import axios from "axios";
-import { GET_FRIEND_LIST, BASE_URL, GET_FRIEND_LIST_SUCCESS, GET_FRIEND_LIST_ERROR, GET_INVITATIONS, GET_INVITATIONS_SUCCESS, GET_INVITATIONS_ERROR, ACCEPT_INVITATION, ACCEPT_INVITATION_SUCCESS, ACCEPT_INVITATION_ERROR, SEND_FRIEND_REQUEST, SEND_FRIEND_REQUEST_SUCCESS, SEND_FRIEND_REQUEST_ERROR, GET_CHATS, GET_CHATS_SUCCESS, GET_CHATS_ERROR, SEARCH_FRIENDS, SEARCH_FRIENDS_SUCCESS, SEARCH_FRIENDS_ERROR } from "../types";
+import { BASE_URL, GET_FRIEND_LIST_SUCCESS, GET_INVITATIONS_SUCCESS, ACCEPT_INVITATION_SUCCESS, SEND_FRIEND_REQUEST_SUCCESS, GET_CHATS_SUCCESS, SEARCH_FRIENDS_SUCCESS, ERROR, LOADING, STOP_LOADING, CREATE_NEW_CHAT_SUCCESS } from "../types";
 
 export const getFriendList = (userId) => async dispatch => {
     try {
         dispatch({
-            type: GET_FRIEND_LIST
+            type: LOADING
         })
         const res = await axios.get(`${BASE_URL}chat/friend-list/${userId}`, {
             "headers": authHeader()
@@ -16,17 +16,20 @@ export const getFriendList = (userId) => async dispatch => {
     }
     catch (e) {
         dispatch({
-            type: GET_FRIEND_LIST_ERROR,
+            type: ERROR,
             payload: get_error(e)
         })
-
     }
+
+    dispatch({
+        type: STOP_LOADING
+    })
 }
 
 export const getInvitations = () => async dispatch => {
     try {
         dispatch({
-            type: GET_INVITATIONS
+            type: LOADING
         })
         const res = await axios.get(`${BASE_URL}chat/friend-request-to-user`, {
             "headers": authHeader()
@@ -38,17 +41,20 @@ export const getInvitations = () => async dispatch => {
     }
     catch (e) {
         dispatch({
-            type: GET_INVITATIONS_ERROR,
+            type: ERROR,
             payload: get_error(e)
         })
-
     }
+
+    dispatch({
+        type: STOP_LOADING
+    })
 }
 
 export const acceptInvitation = (invitationId) => async dispatch => {
     try {
         dispatch({
-            type: ACCEPT_INVITATION
+            type: LOADING
         })
         const res = await axios.put(`${BASE_URL}chat/accept-request`,
             { "id": invitationId },
@@ -60,39 +66,45 @@ export const acceptInvitation = (invitationId) => async dispatch => {
     }
     catch (e) {
         dispatch({
-            type: ACCEPT_INVITATION_ERROR,
+            type: ERROR,
             payload: get_error(e)
         })
     }
+
+    dispatch({
+        type: STOP_LOADING
+    })
 }
 
 export const sendInvitation = (userName) => async dispatch => {
     try {
         dispatch({
-            type: SEND_FRIEND_REQUEST
+            type: LOADING
         })
-        const res = await axios.post(`${BASE_URL}chat/add-friend`,
+        await axios.post(`${BASE_URL}chat/add-friend`,
             { "username": userName },
             { "headers": authHeader() }
         )
         dispatch({
             type: SEND_FRIEND_REQUEST_SUCCESS,
-
         })
     }
     catch (e) {
         dispatch({
-            type: SEND_FRIEND_REQUEST_ERROR,
+            type: ERROR,
             payload: get_error(e)
         })
-
     }
+
+    dispatch({
+        type: STOP_LOADING
+    })
 }
 
 export const getChats = () => async dispatch => {
     try {
         dispatch({
-            type: GET_CHATS
+            type: LOADING
         })
         const res = await axios.get(`${BASE_URL}chat/chats`, { "headers": authHeader() })
         dispatch({
@@ -102,16 +114,20 @@ export const getChats = () => async dispatch => {
     }
     catch (e) {
         dispatch({
-            type: GET_CHATS_ERROR,
+            type: ERROR,
             payload: get_error(e)
         })
     }
+
+    dispatch({
+        type: STOP_LOADING
+    })
 }
 
 export const searchFriends = (username, page_id) => async dispatch => {
     try {
         dispatch({
-            type: SEARCH_FRIENDS
+            type: LOADING
         })
         const res = await axios.get(`${BASE_URL}chat/search-friend/${username}?p=${page_id}`, { "headers": authHeader() })
         dispatch({
@@ -121,11 +137,42 @@ export const searchFriends = (username, page_id) => async dispatch => {
     }
     catch (e) {
         dispatch({
-            type: SEARCH_FRIENDS_ERROR,
+            type: ERROR,
             payload: get_error(e)
         })
     }
+
+    dispatch({
+        type: STOP_LOADING
+    })
 }
+
+export const createNewChat = (ids, name) => async dispatch => {
+    try {
+        dispatch({
+            type: LOADING
+        })
+        const res = await axios.post(`${BASE_URL}chat/create-chat`,
+            { "name": name, "ids": ids },
+            { "headers": authHeader() }
+        )
+        dispatch({
+            type: CREATE_NEW_CHAT_SUCCESS,
+            payload: res.data
+        })
+    }
+    catch (e) {
+        dispatch({
+            type: ERROR,
+            payload: get_error(e)
+        })
+    }
+
+    dispatch({
+        type: STOP_LOADING
+    })
+}
+
 
 const get_error = (e) => {
     console.log(e)

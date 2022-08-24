@@ -1,9 +1,10 @@
-import { TRY_LOGIN, BASE_URL, LOGIN_SUCCESS, LOGIN_ERROR, LOGOUT, TRY_REGISTER, REGISTER_SUCCESS, REGISTER_ERROR, } from "../types";
+import { BASE_URL, LOGIN_SUCCESS, LOGOUT, REGISTER_SUCCESS, LOADING, ERROR, STOP_LOADING, } from "../types";
 import axios from 'axios'
 
 export const login = (email, password) => async dispatch => {
+    localStorage.removeItem("user_tokens");
     dispatch({
-        type: TRY_LOGIN
+        type: LOADING
     })
     try {
         const res = await axios.post(`${BASE_URL}auth/api/token/`, { email, password })
@@ -12,6 +13,7 @@ export const login = (email, password) => async dispatch => {
             type: LOGIN_SUCCESS,
             payload: res.data
         })
+
         console.log("Tokens", res.data)
         if (res.data.refresh) {
             localStorage.setItem('user_tokens', JSON.stringify(res.data))
@@ -21,31 +23,35 @@ export const login = (email, password) => async dispatch => {
     catch (e) {
         console.log("ERROR", e)
         dispatch({
-            type: LOGIN_ERROR,
-            payload: e.response?.data
+            type: ERROR,
+            payload: get_error(e)
         })
-
     }
+    dispatch({
+        type: STOP_LOADING
+    })
 
 }
 
 export const register = (email, username, password) => async dispatch => {
     dispatch({
-        type: TRY_REGISTER
+        type: LOADING
     })
     try {
-        const res = await axios.post(`${BASE_URL}auth/registration`, { email, username, password })
+        await axios.post(`${BASE_URL}auth/registration`, { email, username, password })
         dispatch({
             type: REGISTER_SUCCESS
         })
     } catch (e) {
-        console.log("ERROR1", e)
-        console.log("ERROR2", e.response?.data)
         dispatch({
-            type: REGISTER_ERROR,
-            payload: e.response?.data
+            type: ERROR,
+            payload: get_error(e)
         })
     }
+
+    dispatch({
+        type: STOP_LOADING
+    })
 }
 
 export const logout = () => dispatch => {
@@ -54,3 +60,10 @@ export const logout = () => dispatch => {
     })
 }
 
+const get_error = (e) => {
+    console.log(e)
+    if (e.request.status === 404) {
+        return { "data": "Not Found" }
+    }
+    return e.response?.data || { "CONNECTION": "CONNECTION LOST." }
+}

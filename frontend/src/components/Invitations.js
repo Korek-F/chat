@@ -1,16 +1,15 @@
 import React, { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { acceptInvitation, getInvitations } from '../actions/chatActions'
-import { LoadingAndError } from './LoadingAndError'
 
 export const Invitations = () => {
     const dispatch = useDispatch()
     const chatData = useSelector(state => state.chatData)
-    const { chatLoading, invitations, error } = chatData
+    const { chatLoading, invitations } = chatData
 
     useEffect(() => {
         dispatch(getInvitations())
-    }, [])
+    }, [dispatch])
 
     const acceptInvitationClick = (invitationId) => {
         dispatch(acceptInvitation(invitationId))
@@ -18,14 +17,14 @@ export const Invitations = () => {
     }
 
     return (
-        <>
+        <div className='invitations'>
             {!chatLoading &&
                 <>
                     {invitations.length === 0 ? "You don't have any pending invitations" :
                         <>
                             {
                                 invitations.map(i =>
-                                    <div key={i.from_user.id}>
+                                    <div key={i.from_user.id} className="invitation">
                                         {i.from_user.email}
                                         <button onClick={() => acceptInvitationClick(i.id)}>Confirm</button>
                                     </div>
@@ -36,7 +35,6 @@ export const Invitations = () => {
                 </>
             }
 
-            <LoadingAndError loading={chatLoading} error={error} />
-        </>
+        </div>
     )
 }

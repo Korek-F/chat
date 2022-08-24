@@ -2,21 +2,20 @@ import React, { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 
 import { getFriendList } from '../actions/chatActions';
-import { LoadingAndError } from './LoadingAndError';
 export const MainPage = () => {
     const dispatch = useDispatch()
 
     const authData = useSelector(state => state.authData)
     const chatData = useSelector(state => state.chatData)
 
-    const { isLogged, userEmail, userId } = authData
-    const { chatLoading, friends, error } = chatData
+    const { isLogged, userId } = authData
+    const { chatLoading, friends } = chatData
 
     useEffect(() => {
         if (isLogged && userId) {
             dispatch(getFriendList(userId))
         }
-    }, [isLogged])
+    }, [dispatch, isLogged, userId])
 
     return (
         <div>
@@ -38,7 +37,7 @@ export const MainPage = () => {
                     <span>Login to see your friends</span>
                 }
             </>
-            <LoadingAndError loading={chatLoading} error={error} />
+
         </div>
     )
 }

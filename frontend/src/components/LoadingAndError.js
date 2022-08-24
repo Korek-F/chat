@@ -1,8 +1,7 @@
 import React from 'react'
 import { useDispatch } from 'react-redux'
-import { logout } from '../actions/authActions'
 import "../css/main.css"
-import { DELETE_ERRORS } from '../types'
+import { ERROR } from '../types'
 export const LoadingAndError = ({ loading, error }) => {
 
     const dispatch = useDispatch()
@@ -30,7 +29,7 @@ export const LoadingAndError = ({ loading, error }) => {
 
 
 
-                    <button onClick={() => dispatch({ type: DELETE_ERRORS })}>Close</button>
+                    <button onClick={() => dispatch({ type: ERROR, payload: false })}>Close</button>
                 </div>
             }
         </>

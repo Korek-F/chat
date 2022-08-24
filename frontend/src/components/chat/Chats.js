@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { Chat } from './Chat'
-import { LoadingAndError } from '../LoadingAndError'
 import "../../css/main.css"
 import { getChats } from '../../actions/chatActions'
 import { NewChat } from './NewChat'
@@ -11,9 +10,7 @@ export const Chats = () => {
 
     const dispatch = useDispatch()
     const chatData = useSelector(state => state.chatData)
-    const authData = useSelector(state => state.authData)
-    const { chatLoading, error, chats } = chatData
-    const { userId } = authData
+    const { chats } = chatData
     const [currentChat, setCurrentChat] = useState(null)
 
     useEffect(() => {
@@ -46,7 +43,7 @@ export const Chats = () => {
                 {currentChat && <Chat currentChat={currentChat} />}
             </div>
 
-            <LoadingAndError loading={chatLoading} error={error} />
+
 
             {showAddMenu && <NewChat setShowAddMenu={setShowAddMenu} />}
 
