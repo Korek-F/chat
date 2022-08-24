@@ -47,19 +47,26 @@ class CreateFriendRequest(generics.CreateAPIView):
 class CreateNewChat(generics.CreateAPIView):
     permission_classes = [permissions.IsAuthenticated]
 
+    def get_queryset(self, user):
+        return Chat.objects.all().filter(users__id = user.id)
+    
     def create(self,request):
         friends_ids = self.request.data.get("ids")
+        name = self.request.data.get("name")
         user = self.request.user
         new_chat = Chat.objects.create()
         new_chat.users.add(user)
+        if name:
+            new_chat.name = name
 
         for i, v in enumerate(friends_ids):
-            user = get_object_or_404(User, pk=v)
-            print(user.email)
+            user = get_object_or_404(User, pk=v["id"])
             new_chat.users.add(user)
         new_chat.save()
         
-        return Response("OK")
+        queryset = self.get_queryset(user=user)
+        serializer = ChatSerializer(queryset, many=True)
+        return Response(serializer.data)
 
 class FriendRequesToUsertList(generics.ListAPIView):
     permission_classes = [permissions.IsAuthenticated]
