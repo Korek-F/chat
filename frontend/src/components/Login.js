@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { login } from '../actions/authActions'
 import { useNavigate } from 'react-router-dom'
-import { LoadingAndError } from './LoadingAndError'
+import { LoadingAndError } from './errors/Loading'
 
 export const Login = () => {
     const dispatch = useDispatch()
@@ -45,7 +45,6 @@ export const Login = () => {
                     Login
                 </button>
             </form>
-            <LoadingAndError loading={loading} error={error} />
         </div>
     )
 }

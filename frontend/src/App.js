@@ -6,10 +6,11 @@ import {
 } from "react-router-dom";
 import { AddFriend } from "./components/AddFriend";
 import { Chats } from "./components/chat/Chats";
+import { Error } from "./components/errors/Error";
+import { Loading } from "./components/errors/Loading";
 
 import { NotFound } from "./components/errors/NotFound";
 import { Invitations } from "./components/Invitations";
-import { LoadingAndError } from "./components/LoadingAndError";
 import { Login } from "./components/Login";
 import { Logout } from "./components/Logout";
 import { MainPage } from "./components/MainPage";
@@ -55,7 +56,8 @@ function App() {
           <Route path="*" element={<NotFound />} />
         </Routes>
 
-        <LoadingAndError loading={chatLoading} error={error} />
+        <Loading loading={chatLoading} error={error} />
+        <Error error={error} />
       </div>
     </BrowserRouter>
   );

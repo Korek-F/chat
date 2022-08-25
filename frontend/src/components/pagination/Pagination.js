@@ -42,7 +42,7 @@ export const Pagination = ({ pagination_data, currentPage, changePage }) => {
     )
 
     return (
-        <div className='controls_div'>
+        <div className='pagination'>
             {pagination_data.count ?
                 <ul className='controls_list'>
                     {rendered_controls}

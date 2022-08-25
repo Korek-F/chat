@@ -11,10 +11,13 @@ export const Logout = () => {
         navigate("/")
     }
     return (
-        <div>
-            Are you sure you want to log out?
-            <button onClick={userActionLogout}>Yes</button>
-            <button onClick={() => navigate("/")}>No</button>
-        </div>
+        <>
+            <div className='info'> Are you sure you want to log out? </div>
+            <div className='logout_buttons'>
+                <button className="logout_button logout_button_yes" onClick={userActionLogout}>Yes</button>
+                <button className="logout_button logout_button_no"
+                    onClick={() => navigate("/")}>No</button>
+            </div>
+        </>
     )
 }

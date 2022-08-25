@@ -27,16 +27,22 @@ export const Chats = () => {
     return (
         <div className='chats'>
             <div className='chat_friends'>
+                <h2>Your chats:</h2>
+                <div className="create_new_chat"
+                    onClick={() => setShowAddMenu(true)}>
+                    +
+                </div>
+
                 {chats.map(c =>
-                    <div key={c.id} onClick={() => setCurrentChat(c.id)}>
-                        {c.users.length}.
+                    <div key={c.id}
+                        onClick={() => setCurrentChat(c.id)}
+                        className="chat_link"
+                    >
                         {c.name ? c.name :
                             c.users.map(u => u.username + " ")}
                     </div>
                 )}
-                <div className="create_new_chat" onClick={() => setShowAddMenu(true)}>
-                    +
-                </div>
+
             </div>
             <hr />
             <div className='chat_left_side'>

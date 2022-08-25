@@ -20,13 +20,15 @@ export const Invitations = () => {
         <div className='invitations'>
             {!chatLoading &&
                 <>
-                    {invitations.length === 0 ? "You don't have any pending invitations" :
+                    {invitations.length === 0 ?
+                        <p className='info'> You don't have any pending invitations </p> :
                         <>
                             {
                                 invitations.map(i =>
                                     <div key={i.from_user.id} className="invitation">
-                                        {i.from_user.email}
-                                        <button onClick={() => acceptInvitationClick(i.id)}>Confirm</button>
+                                        <p> {i.from_user.username}</p>
+                                        <button className='my_btn btn_success'
+                                            onClick={() => acceptInvitationClick(i.id)}>Confirm</button>
                                     </div>
                                 )
                             }

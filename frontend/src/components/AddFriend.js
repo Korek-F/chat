@@ -37,20 +37,27 @@ export const AddFriend = () => {
     return (
         <div>
             <h1>Add a Friend </h1>
-            <span>Type your friends name</span>
-            <input type="text" onChange={(e) => setUserName(e.target.value)} />
-            <button onClick={searchFriendClick}
-                disabled={chatLoading ? true : false}
-            >Search</button>
+            <div className='search_box'>
+                <input type="text" className='my_input'
+                    placeholder='Type your friends name'
+                    onChange={(e) => setUserName(e.target.value)}
+                />
+                <button onClick={searchFriendClick}
+                    className="my_btn search_btn"
+                    disabled={chatLoading ? true : false}
+                >Search</button>
+            </div>
 
             <Pagination pagination_data={searched_friends_data}
                 currentPage={currentPage} changePage={changePageClick} />
 
-            {searched_users.map(f => <div key={f.id}>
-                {f.username}
-                <button
-                    onClick={() => dispatch(sendInvitation(f.username))}>Add</button>
-            </div>)}
+            {searched_users.map(f =>
+                <div key={f.id} className="profile">
+                    {f.username}
+                    <button className='my_btn btn_success'
+                        onClick={() => dispatch(sendInvitation(f.username))}>Add</button>
+                </div>
+            )}
 
 
         </div>

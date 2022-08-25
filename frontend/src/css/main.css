@@ -4,6 +4,7 @@
     box-sizing: border-box;
     margin: 0;
     padding: 0;
+    font-family: Arial, Helvetica, sans-serif;
 }
 
 .navbar {
@@ -30,8 +31,30 @@
 }
 
 .chat_friends {
-    border: 1px solid red;
     width: 30%;
+    display: flex;
+    flex-direction: column;
+    padding: 1rem;
+    overflow-y: scroll;
+    background-color: rgb(26, 26, 82);
+    color: white;
+    position: relative;
+}
+
+.chat_link {
+    text-transform: capitalize;
+    margin: 0.5rem 0;
+    font-size: 2rem;
+}
+
+.create_new_chat {
+    position: absolute;
+    right: 2rem;
+    top: 1rem;
+    font-size: 2rem;
+    background-color: rgb(0, 94, 0);
+    padding: 0.2rem 0.8rem;
+    border-radius: 50%;
 }
 
 .chat_left_side {
@@ -67,20 +90,51 @@
     font-size: 1.2rem;
 }
 
-.loading_and_error {
+.error,
+.loading {
     position: fixed;
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
-    color: red;
+}
+
+h2 {
+    font-size: 2rem;
+}
+
+.error {
+    color: rgb(255, 255, 255);
     width: 50%;
-    background-color: bisque;
+    background-color: rgb(7, 0, 109);
     height: calc(40vh);
-    opacity: 0.8;
+    border: 4px solid rgb(136, 0, 0);
+    padding: 1rem;
+    font-size: 1rem;
+
+    animation-name: animateError;
+    animation-duration: 0.5s;
+}
+
+@keyframes animateError {
+    0% {
+        opacity: 0;
+    }
+
+    100% {
+        opacity: 1;
+    }
+}
+
+.loading {}
+
+.pagination {
+    display: flex;
+    justify-content: center
 }
 
 .page_control {
     font-size: 2rem;
+    padding: 0 1rem;
     color: grey;
     user-select: none;
 }
@@ -91,17 +145,18 @@
 
 .controls_list {
     display: flex;
-    width: 200px;
     align-items: baseline;
 }
 
 .popup_message {
-    width: 200px;
-    border: 1px solid black;
-    height: 100px;
     position: fixed;
-    background-color: rgba(255, 255, 255, 0.8);
-    right: 20px;
+    right: 2rem;
+    bottom: 4rem;
+    padding: 1rem;
+    font-size: 2rem;
+    color: rgb(255, 255, 255);
+    background-color: rgb(7, 0, 109);
+    border: 4px solid rgb(5, 165, 0);
 }
 
 .add_new_chat {
@@ -120,8 +175,95 @@
     padding: 2rem;
 }
 
-.invitation {
-    background-color: blue;
-    padding: 1rem;
+.invitation,
+.profile {
+    background-color: rgb(0, 0, 63);
+    padding: 1rem 7rem;
+    font-size: 2rem;
     color: white;
+    display: flex;
+    justify-content: space-between;
+    margin: 0.5rem 0;
+}
+
+.my_btn {
+    font-size: 1rem;
+    padding: 0.5rem;
+    font-weight: 600;
+    letter-spacing: 0.1rem;
+}
+
+.btn_success {
+    background-color: rgb(0, 134, 7);
+    color: white;
+}
+
+.btn_close {
+    position: absolute;
+    top: 0.5rem;
+    right: 0.5rem;
+    width: 2rem;
+    height: 2rem;
+    background-color: rgb(145, 0, 0);
+    border: 0;
+    border-radius: 50%;
+    color: white
+}
+
+h1 {
+    font-size: 4rem;
+    margin: 0 0 1rem 0;
+}
+
+.main_content {
+    padding: 0 4rem;
+}
+
+.info {
+    font-size: 3rem;
+    text-align: center;
+}
+
+.search_box {
+    display: flex;
+}
+
+.search_btn {
+    width: 20%;
+    background-color: rgb(0, 96, 221);
+    color: white;
+}
+
+.my_input {
+    width: 80%;
+    font-size: 1.6rem;
+}
+
+.pagination_box {
+    display: flex;
+    text-align: center;
+    color: red
+}
+
+.logout_buttons {
+    display: flex;
+    justify-content: center;
+}
+
+.logout_button {
+    font-size: 1rem;
+    padding: 0.5rem;
+    font-weight: 600;
+    letter-spacing: 0.1rem;
+    margin: 1rem 3rem;
+    border: 0;
+    color: white
+}
+
+.logout_button_yes {
+    background-color: rgb(134, 0, 0);
+}
+
+.logout_button_no {
+    background-color: rgb(16, 134, 0);
 }
